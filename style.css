@@ -1,0 +1,12 @@
+
+    button,
+    div,
+    form,
+    input {
+      margin: 10px;
+    
+    }
+
+    #add-animal{
+        background-color: lightseagreen;
+    }
