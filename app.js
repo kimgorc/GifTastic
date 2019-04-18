@@ -35,7 +35,7 @@ $("#add-animal").on("click", function(event) {
 
 // calling the giphy api
       var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-        animalGif + "&api_key=dc6zaTOxFJmzC&limit=1";
+        animalGif + "&api_key=dc6zaTOxFJmzC&limit=10";
         
         $.ajax({
           url: queryURL,
@@ -57,11 +57,14 @@ $("#add-animal").on("click", function(event) {
 
             var p = $("<p>").text("Rating: " + rating);
 
-// Creating an image tag
+      
           var animalImage = $("<img>");
-
-// Giving the image tag an src attribute of a proprty pulled off the
-            animalImage.attr("src", response.data[i].images.original.url);
+            animalImage.attr({"src": response.data[i].images.original_still.url,
+             "data-still": response.data[i].images.original_still.url,
+             "data-animate": response.data[i].images.original.url, "data-state" : "still"});
+            animalImage.addClass("gifAnimate");
+          
+                              
 
 // Appending the paragraph and personImage we created to the "gifDiv" div we created
             gifDiv.append(p);
@@ -71,8 +74,26 @@ $("#add-animal").on("click", function(event) {
             $("#gifs-appear-here").prepend(gifDiv);
         }
       }
+
+      $(".gifAnimate").on("click", function() {
+        // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+        var state = $(this).attr("data-state");
+        
+        // If/ else to chage the data attribute based on what the date is 
+        if (state === "animate") {
+          
+          $(this).attr("src", $(this).attr("data-still"));
+          $(this).attr("data-state", "still");
+        } else {
+          $(this).attr("src", $(this).attr("data-animate"));
+          $(this).attr("data-state", "animate");
+          
+        }
+      });
     });
       
 });
 
 });
+
+
